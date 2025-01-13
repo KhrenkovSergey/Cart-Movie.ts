@@ -22,15 +22,11 @@ export default class Cart {
     }
 
     getTotalPrice(): number {
-        let total = 0;
-        this._items.forEach(item => {
-            if (item instanceof Movie) {
-                total += this.getPrice(item.id);
-            }
-        });
-        return total;
+        return this._items.reduce((total, item) => {
+            return total + (item instanceof Movie ? this.getPrice(item.id) : 0);
+        }, 0);
     }
-
+    
     getTotalPriceWithDiscount(discount: number): number {
         const total = this.getTotalPrice();
         return total - (total * discount);
